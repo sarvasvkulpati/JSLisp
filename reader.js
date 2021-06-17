@@ -19,43 +19,73 @@ class Reader {
 
 
 
+
 let read_str = (input_str) => {
   let tokens = tokenize(input_str)
   let reader = new Reader(tokens)
-  read_form(reader)
+
+  console.log(tokens)
+  
+  return read_form(reader)
 } 
 
 
 let tokenize = (input) =>{
-  let tokens = input.replaceAll('(', ' ( ').replaceAll(')', ' ) ').split(/  */)
+  let re =  /[\s,]*(~@|[\[\]{}()'`~^@]|"(?:\\.|[^\\"])*"?|;.*|[^\s\[\]{}('"`,;)]*)/g;
+
+  let tokens = input.match(re)
+
+  tokens = tokens.map((token) => token.trim())
+   console.log('tokens:', tokens)
   return tokens
 }
 
 
 let read_form = (reader) => {
+
+  
+
+  
   
   let token = reader.peek()
+  console.log('peeking at ', token)
   switch(token) {
 
-    case '(':
-      read_list(reader)
-      break;
-
-    default:
-      read_atom(reader)
+    case '(': return read_list(reader)
+    default: return read_atom(reader)
   }
+
+  
 }
 
 
 let read_list = (reader) => {
-
+ 
   let ast = []
 
   let token = reader.next()
-  if(token != ')'){
-    read_form(token)
-  } else {
-    console.log('error, expected a ) somewhere')
+
+  console.log(token)
+  while(reader.peek() != ')'){
+    ast.push(read_form(reader))
   }
 
+
+  console.log('ast', ast)
+  reader.next()
+  return ast
+
 }
+
+let read_atom = (reader) => {
+  
+  let atom = reader.next()
+  console.log('atom', atom)
+  return atom
+}
+
+
+
+
+
+module.exports = {read_str, tokenize, read_form, read_list}

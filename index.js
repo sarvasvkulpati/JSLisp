@@ -1,10 +1,11 @@
-import './reader.js'
+const reader = require('./reader')
 const readline = require('readline')
 
 
 
 let read = (input) => {
-  return input
+  
+  return reader.read_str(input)
 }
 
 
