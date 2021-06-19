@@ -1,10 +1,13 @@
 const reader = require('./reader')
+const printer = require('./printer')
 const readline = require('readline')
 
 
 
 let read = (input) => {
   
+  
+
   return reader.read_str(input)
 }
 
@@ -18,13 +21,14 @@ let eval = (input) => {
 
 
 let print = (input) => {
-  return input
+  return printer.pr_str(input)
 }
 
 
 let rep = (input) => {
+  return   print(eval(read(input)))
 
-  return read(eval(print(input)))
+ 
 }
 
 
