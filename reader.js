@@ -78,7 +78,15 @@ let read_atom = (reader) => {
   
   let atom = reader.next()
 
-  return atom
+  //if not not a number (i.e. if can be cast to a number)
+  if(!isNaN(atom)) {
+    return Number(atom)
+  } 
+
+  if (typeof(atom) == 'string'){
+    return atom
+  }
+  
 }
 
 
