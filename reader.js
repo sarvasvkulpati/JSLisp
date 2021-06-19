@@ -84,7 +84,7 @@ let read_atom = (reader) => {
   } 
 
   if (typeof(atom) == 'string'){
-    return atom
+    return String(atom)
   }
   
 }

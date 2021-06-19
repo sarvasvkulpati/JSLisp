@@ -1,7 +1,7 @@
 const reader = require('./reader')
 const printer = require('./printer')
 const readline = require('readline')
-
+const {Env} = require('./env')
 
 
 let read = (input) => {
@@ -12,15 +12,12 @@ let read = (input) => {
 }
 
 
+let env = new Env(null)
+env.set('+', (op1, op2) => op1 + op2)
+env.set('-', (op1, op2) => op1 - op2)
+env.set('/', (op1, op2) => op1 / op2)
+env.set('*', (op1, op2) => op1 * op2)
 
-
-
-let env = {
-  '+': (op1, op2) => op1 + op2,
-  '-': (op1, op2) => op1 - op2,
-  '/': (op1, op2) => op1 / op2,
-  '*': (op1, op2) => op1 * op2,
-}
 
 
 
@@ -32,27 +29,43 @@ let eval = (ast, env) => {
     return eval_ast(ast, env)
   }
 
-
  
   if(ast.length == 0) {
     return ast
   }
 
-  if(Array.isArray(ast)) {
-    
-    let evaluated_list = eval_ast(ast, env)
-    
-      
-    let func = evaluated_list[0]
-    let args = evaluated_list.slice(1)
 
-    return func.apply(null, args)
+
+  switch (ast[0]) {
+
+    case 'def!':
+      let key = ast[1]
+      let val = eval(ast[2], env)
+      env.set(key, val)
+  
+      return val
     
+    case 'let*':
+      let new_env = new Env(env)
+      let bindings = ast[1]
+      let expr = ast[2]
+
+      for(i = 0; i < bindings.length; i+=2 ) {
+        let key = bindings[i]
+        let val = bindings[i+1]
+        new_env.set(key, val)
+      }
+      return eval(expr, new_env)
+
+    
+    default:
+      let evaluated_list = eval_ast(ast, env)
+
+      let func = evaluated_list[0]
+      let args = evaluated_list.slice(1)
+
+      return func.apply(null, args)
   }
-
-
-
-  return input
 }
 
 
@@ -60,8 +73,9 @@ let eval_ast = (ast, env) => {
   //symbol
   if(typeof(ast) == 'string') {
 
+  
     try{
-      return env[ast]
+      return env.get(ast)
     } catch (err) {
       console.log(err)
     }
