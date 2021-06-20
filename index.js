@@ -46,9 +46,11 @@ let eval = (ast, env) => {
       return val
     
     case 'let*':
-      let new_env = new Env(env)
+     
       let bindings = ast[1]
       let expr = ast[2]
+
+       let new_env = new Env(env)
 
       for(i = 0; i < bindings.length; i+=2 ) {
         let key = bindings[i]
@@ -57,11 +59,44 @@ let eval = (ast, env) => {
       }
       return eval(expr, new_env)
 
+    case 'do':
+      return eval_ast(ast.slice(1), env)
+   
+
+
+    case 'if':
+      let result = eval(ast[1], env)
+      
+
+
+      if (result != null && result != false) {
+      
+        return eval(ast[2], env)
+      } else if (typeof ast[3] !== 'undefined'){
+       
+
+        return eval(ast[3], env)
+      } else {
+        return null
+      }
+    
+    case 'fn*':
+
+      return (...args)  => {
+       
+        let new_env = new Env(env, binds=ast[1], exprs=args)
+    
+        return eval(ast[2], new_env)
+      }
+      
+
     
     default:
       let evaluated_list = eval_ast(ast, env)
 
       let func = evaluated_list[0]
+
+     
       let args = evaluated_list.slice(1)
 
       return func.apply(null, args)
@@ -74,17 +109,15 @@ let eval_ast = (ast, env) => {
   if(typeof(ast) == 'string') {
 
   
-    try{
-      return env.get(ast)
-    } catch (err) {
-      console.log(err)
-    }
 
+      return env.get(ast)
+    
   }
 
   //list
 
   else if (Array.isArray(ast)) {
+    
     return ast.map(e => eval(e, env))
   }
 
@@ -102,6 +135,7 @@ let eval_ast = (ast, env) => {
 
 
 let print = (input) => {
+
   return printer.pr_str(input)
 }
 

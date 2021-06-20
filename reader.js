@@ -84,7 +84,27 @@ let read_atom = (reader) => {
   } 
 
   if (typeof(atom) == 'string'){
-    return String(atom)
+
+
+    switch (atom){
+      
+      case 'true':
+       
+        return true
+      
+      case 'false':
+        
+        return false
+
+      
+      case 'nil':
+        return null
+
+      default:
+        return String(atom)
+
+    }
+    
   }
   
 }
