@@ -2,7 +2,7 @@ const reader = require('./reader')
 const printer = require('./printer')
 const readline = require('readline')
 const {Env} = require('./env')
-
+const core = require('./core')
 
 let read = (input) => {
 
@@ -13,12 +13,9 @@ let read = (input) => {
 
 
 let env = new Env(null)
-env.set('+', (op1, op2) => op1 + op2)
-env.set('-', (op1, op2) => op1 - op2)
-env.set('/', (op1, op2) => op1 / op2)
-env.set('*', (op1, op2) => op1 * op2)
-
-
+for (let [key, value] of Object.entries(core.ns)) {
+  env.set(key, value)
+}
 
 
 let eval = (ast, env) => {
@@ -77,7 +74,7 @@ let eval = (ast, env) => {
 
         return eval(ast[3], env)
       } else {
-        return null
+        return 'nil'
       }
     
     case 'fn*':
