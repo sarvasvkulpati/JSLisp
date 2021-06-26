@@ -6,7 +6,10 @@ let ns = {
   '-': (op1, op2) => op1 - op2,
   '/': (op1, op2) => op1 / op2,
   '*': (op1, op2) => op1 * op2,
-  'prn': (arg) => printer.pr_str(arg),
+  'prn': (arg) => {
+    console.log(printer.pr_str(arg))
+    return 'nil'
+  },
   'list': (...args) => args,
   'list?': (...args) => Array.isArray(args[0]) ? true : false,
   'empty?': (...args) => args[0].length == 0 ? true : false,
