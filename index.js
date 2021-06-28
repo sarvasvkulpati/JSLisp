@@ -105,7 +105,7 @@ let eval = (ast, env) => {
     
       default:
         let evaluated_list = eval_ast(ast, env)
-
+          
         let func = evaluated_list[0]
 
       
@@ -124,20 +124,35 @@ let eval = (ast, env) => {
 
 
 let eval_ast = (ast, env) => {
-  //symbol
+
+
+
+if (Array.isArray(ast)) {
+    
+    return ast.map(e => eval(e, env))
+  }
+
 
 
   
-    if(typeof(ast) == 'string') {
+    else if(typeof(ast) == 'string') {
 
       
       let result = env.get(ast)
 
+
+     
      
 
-
+     
+      
       return result ? result : ast
 
+    }
+
+
+    else {
+      return ast
     }
   
 
@@ -145,12 +160,9 @@ let eval_ast = (ast, env) => {
 
   
 
-  //list
 
-  else if (Array.isArray(ast)) {
-    
-    return ast.map(e => eval(e, env))
-  }
+
+
 
   //not symbol or list
 

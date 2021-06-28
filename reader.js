@@ -26,8 +26,10 @@ let read_str = (input_str) => {
 
 
 
+  let result = read_form(reader)
 
-  return read_form(reader)
+ 
+  return result
 } 
 
 
@@ -50,9 +52,14 @@ let read_form = (reader) => {
   
   
   let token = reader.peek()
+  
+  if(token[0] == ';'){
+    return null
+  }
+
 
   switch(token) {
-
+    
     case '(': return read_list(reader)
     default: return read_atom(reader)
   }
@@ -82,9 +89,10 @@ let read_list = (reader) => {
 let read_atom = (reader) => {
   
   let atom = reader.next()
-
+  
   //if not not a number (i.e. if can be cast to a number)
   if(!isNaN(atom)) {
+    
     return Number(atom)
   } 
 
