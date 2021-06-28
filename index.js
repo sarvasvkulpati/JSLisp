@@ -125,13 +125,25 @@ let eval = (ast, env) => {
 
 let eval_ast = (ast, env) => {
   //symbol
-  if(typeof(ast) == 'string') {
+
 
   
+    if(typeof(ast) == 'string') {
 
-      return env.get(ast)
-    
-  }
+      
+      let result = env.get(ast)
+
+     
+
+
+      return result ? result : ast
+
+    }
+  
+
+
+
+  
 
   //list
 
@@ -142,9 +154,9 @@ let eval_ast = (ast, env) => {
 
   //not symbol or list
 
-  else {
-    return ast
-  }
+  // else {
+  //   return ast
+  // }
 
 }
 

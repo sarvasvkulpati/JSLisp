@@ -42,7 +42,7 @@ class Env {
 
       return env_with_key.data[key]
     } catch (err) {
-      console.log("couldn't find", key, 'in', this.data, err)
+      // console.log("couldn't find", key, 'in', this.data, err)
     }
   }
 

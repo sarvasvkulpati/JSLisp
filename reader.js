@@ -38,6 +38,7 @@ let tokenize = (input) =>{
 
   tokens = tokens.map((token) => token.trim())
   
+  
   return tokens
 }
 
@@ -88,6 +89,9 @@ let read_atom = (reader) => {
   } 
 
   if (typeof(atom) == 'string'){
+
+
+    
 
 
     switch (atom){
