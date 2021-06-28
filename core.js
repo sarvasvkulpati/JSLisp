@@ -1,5 +1,6 @@
 const printer = require('./printer')
-
+const reader = require('./reader')
+const fs = require("fs");
 
 let ns = {
   '+': (op1, op2) => op1 + op2,
@@ -25,7 +26,12 @@ let ns = {
   '<': (op1, op2) => op1 < op2,
   '<=': (op1, op2) => op1 <= op2,
   '>': (op1, op2) => op1 > op2,
-  '>=': (op1, op2) => op1 >= op2
+  '>=': (op1, op2) => op1 >= op2,
+
+  'read-string': reader.read_str,
+  'slurp': (filename) => fs.readFileSync(filename, "utf-8"),
+
+
 }
 
 

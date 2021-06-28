@@ -28,7 +28,8 @@ let read_str = (input_str) => {
 
   let result = read_form(reader)
 
- 
+
+  
   return result
 } 
 
@@ -40,6 +41,8 @@ let tokenize = (input) =>{
 
   tokens = tokens.map((token) => token.trim())
   
+
+
   
   return tokens
 }
@@ -87,6 +90,9 @@ let read_list = (reader) => {
 }
 
 let read_atom = (reader) => {
+
+  
+
   
   let atom = reader.next()
   
@@ -98,6 +104,18 @@ let read_atom = (reader) => {
 
   if (typeof(atom) == 'string'){
 
+    //super hacky checking of string. need to fix later
+    if(atom[0]== '"') {
+      atom = atom
+              .slice(1, atom.length - 1)
+              .replace(/\\"/g, '"')
+              .replace(/\\n/g, '\n')
+              .replace(/\\\\/g, '\\')
+             
+     
+      return String(atom)
+      
+    }
 
     
 
@@ -117,7 +135,7 @@ let read_atom = (reader) => {
         return null
 
       default:
-        return String(atom)
+        return atom
 
     }
     

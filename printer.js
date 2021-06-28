@@ -1,3 +1,11 @@
+
+let escape = (string) => {
+  return string
+          .replace(/\\/g, '\\\\')
+          .replace(/"/g, '\\"')
+          .replace(/\n/g, '\\n')
+}
+
 let pr_str = (data) => {
 
   if(!data) {

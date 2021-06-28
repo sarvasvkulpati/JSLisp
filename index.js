@@ -1,3 +1,5 @@
+
+
 const reader = require('./reader')
 const printer = require('./printer')
 const readline = require('readline')
@@ -19,6 +21,8 @@ for (let [key, value] of Object.entries(core.ns)) {
 
 
 let eval = (ast, env) => {
+
+
   while (true) {
 
     if(!Array.isArray(ast)){
